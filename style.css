@@ -7,17 +7,12 @@
     /* General Variables */
     --text-color-white : #ffff;
     --text-color-black : #0000;
-    --size-0 : 12px;
-    --size-1 : 1rem;
+    --size-0 : 12px; /* This is for the size of labels and text in the button*/
+    --size-1 : 1rem; /*This is for the normal text that is 16px*/
     --size-2: 1.5rem;
 
     /* For Reusable Components */
     --button-color : #272727;
-
-
-
-
-
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
@@ -46,13 +41,10 @@ header{
 .header_logo{
     width: 150px;
 }
-
 /* Testing Phase */
-
 main {
-    /* border: 1px solid black; */
+    /* Need to apply Media Queries in larger screens that's why there is no css design attached */
 }
-
 /* Form */
 form{
     margin-top: 2rem;
@@ -83,14 +75,12 @@ form > h1{
     width: 100%;
     outline: none;
 }
-
 .form-floating > label {
     position: absolute;
     left: 10px;
     top: 0;
     font-size: var(--size-0)
 }
-
 input[type=submit] {
     padding: 10px 0;
     width: 100%;

@@ -31,15 +31,17 @@
     </header>
     <main>
         <section class="container-90 section-1">
-            <form name="createAccountForm">
+            <form name="form"
+            onsubmit="return validate(event)"
+            >
             
                 <h1>Create Account</h1>
                 <div class="divider"></div>
                 <hr>
                 <div class="grid-container">
                     <div class="form-floating grid-item-1">
-                        <label for="first-name">First Name</label>
-                        <input type="text" name="first-name" id="first-name" placeholder="">
+                        <label for="firstname">First Name</label>
+                        <input type="text" name="firstname" id="firstname" placeholder="">
                     </div>
                     <div class="form-floating grid-item-2">
                         <label for="last-name">Last Name</label>
@@ -109,5 +111,7 @@
     <footer>
         <p class="container-90"> &copy; 2024 Real Estate Management System. Developed by PAQUIBOT.</p>
     </footer>
+
+    <script src="script/index.js"></script>
 </body>
 </html>

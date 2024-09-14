@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Management System - Create Account</title>
+    <link rel="stylesheet" href="styles/style2.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/img2.svg" alt="LOGO">
+        </div>
+    </header>
+
+    <main>
+        <section class="section-1">
+            <form>
+                <!-- Personal details -->
+                 <h1>Create Account</h1>
+                 <br>
+                <div class="label-fieldset">Personal Details</div>
+                <div class="form-input-label-wrapper names" style="display: flex; gap: 2px;">
+                    <div class="input-wrapper">
+                        <label for="fname">First Name</label>
+                        <input type="text" name="fname" id="fname">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="lname">Last Name</label>
+                        <input type="text" name="lname" id="lname">
+                    </div>
+                </div>
+                <!--  -->
+                <div class="form-input-label-wrapper initials" style="display: flex; gap: 2px;">
+                    <div class="input-wrapper">
+                        <label for="middleinitial">Middle Initial</label>
+                        <input type="text" name="middleinitial" id="middleinitial">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="extname">Extension Name</label>
+                        <input type="text" name="extname" id="extname">
+                    </div>
+                </div>
+                <!-- Email -->
+                <div class="input-wrapper">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email">
+                </div>
+                <!-- Sex -->
+                <div class="form-input-label-wrapper" style="display: flex; gap: 1.5rem;">
+                    <div class="input-wrapper">
+                        <label for="male" style="left: .5rem;top: .2rem;" >Male</label>
+                        <input type="radio" name="sex" id="male">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="female"  style="left: .5rem;top: .2rem;" >Female</label>
+                        <input type="radio" name="sex" id="female">
+                    </div>
+                </div>
+                <div class="label-fieldset">Address</div>
+                <div class="form-input-label-wrapper">
+                    <div class="input-wrapper">
+                        <label for="purok">Purok</label>
+                        <input type="text" name="purok" id="purok">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="barangay">Barangay</label>
+                        <input type="text" name="barangay" id="barangay">
+                    </div>
+                </div>
+                <div class="form-input-label-wrapper">
+                    <div class="input-wrapper">
+                        <label for="city">City</label>
+                        <input type="text" name="city" id="city">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="province">Province</label>
+                        <input type="text" name="province" id="province">
+                    </div>
+                </div>
+                <div class="input-wrapper">
+                    <label for="country">Country</label>
+                    <input type="text" name="country" id="country">
+                </div>
+                <div class="input-wrapper">
+                    <label for="zipcode">ZIP code</label>
+                    <input type="number" name="zipcode" id="zipcode">
+                </div>
+                <div class="label-fieldset">Account Details</div>
+                <div class="input-wrapper">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username">
+                </div>
+                <div class="form-input-label-wrapper">
+                    <div class="input-wrapper">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="password">Re-enter Password</label>
+                        <input type="password" name="password" id="password">
+                    </div>
+                </div>
+                <input type="submit" value="Create Account">
+                <p style="margin-top: 1rem; font-size: .7rem;">You already have an account?<a href="login.html">Click here!</a></p>
+            </form>
+        </section>
+        <section class="section-2">
+            <img src="assets/img1.svg" alt="Hero">
+        </section>
+    </main>
+    <footer>
+        <p>Copyright &copy; 2024 Real Estate Management System. Developed by PAQUIBOT.</p>
+    </footer>
+</body>
+</html>

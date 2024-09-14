@@ -49,10 +49,10 @@ main {
 form{
     margin-top: 2rem;
 }
-
 form > h1{
     font-size: 1.5rem;
     font-weight: 700;
+    color: var(--button-color);
 }
 /* Divider */
 .divider{
@@ -90,6 +90,9 @@ input[type=submit] {
     color: var(--text-color-white);
     font-size: var(--size-0);
 }
+form > p {
+    font-size: var(--size-0);
+}
 
 /* Section 2 */
 .section-2{
@@ -102,13 +105,56 @@ input[type=submit] {
 /* Footer */
 footer{
     font-size: var(--size-0);
+    text-align: center;
+    padding: 10px 0;
 }
 
+
+/* Create Account Page Mobile design */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 column layout */
+    grid-template-areas: 
+        'fname'
+        'lname'
+        'minitial'
+        'ename'
+        'email'
+        'male'
+        'purok'
+        'brgy'
+        'city'
+        'province'
+        'country'
+        'zip'
+        'username'
+        'password'
+        're-enter-password'
+        'submitBtn';
+}
+.grid-item-1,
+.grid-item-2,
+.grid-item-3,
+.grid-item-4,
+.grid-item-5,
+.grid-item-6,
+.grid-item-7,
+.grid-item-8,
+.grid-item-9,
+.grid-item-10,
+.grid-item-11,
+.grid-item-12,
+.grid-item-13,
+.grid-item-14,
+.grid-item-15,
+.grid-item-16 {
+    width: 100%; /* Ensure all grid items take up full width */
+}
 
 
 /* For PC 1920 x 1080p design */
 /* Added 6px */
-@media(min-width: 1920px){
+@media(min-width : 1024px){
     .header_logo{
         width: 250px;
     }
@@ -129,6 +175,7 @@ footer{
     form > h1{
         font-size: 1.8rem; /*Added 6px for desktop design*/
         font-weight: 700;
+        color: var(--button-color);
     }
     form{
         width: 50%;
@@ -154,7 +201,92 @@ footer{
         text-align: center;
         padding: 1rem 0;
         box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1); /* Shadow on top */
-    }    
+    } 
+
+
+
+    /* Registration page design */
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+            'fname lname'
+            'minitial ename'
+            'email email'
+            'male male'
+            'purok brgy'
+            'city province'
+            'country zip'
+            'username username'
+            'password re-enter-password'
+            'submitBtn submitBtn';
+        gap: 10px;
+    }
+    
+    .grid-item-1 {
+        grid-area: fname;
+    }
+    
+    .grid-item-2 {
+        grid-area: lname;
+    }
+    
+    .grid-item-3 {
+        grid-area: minitial;
+    }
+    
+    .grid-item-4 {
+        grid-area: ename;
+    }
+    
+    .grid-item-5 {
+        grid-area: email;
+    }
+    
+    .grid-item-6 {
+        grid-area: male;
+    }
+    
+    .grid-item-7 {
+        grid-area: purok;
+    }
+    
+    .grid-item-8 {
+        grid-area: brgy;
+    }
+    
+    .grid-item-9 {
+        grid-area: city;
+    }
+    
+    .grid-item-10 {
+        grid-area: province;
+    }
+    
+    .grid-item-11 {
+        grid-area: country;
+    }
+    
+    .grid-item-12 {
+        grid-area: zip;
+    }
+    
+    .grid-item-13 {
+        grid-area: username;
+    }
+    
+    .grid-item-14 {
+        grid-area: password;
+    }
+    
+    .grid-item-15 {
+        grid-area: re-enter-password;
+    }
+    
+    .grid-item-16 {
+        grid-area:  submitBtn;
+    }
+    
 }
 
 

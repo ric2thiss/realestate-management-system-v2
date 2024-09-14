@@ -149,6 +149,7 @@ footer{
 .grid-item-15,
 .grid-item-16 {
     width: 100%; /* Ensure all grid items take up full width */
+    margin-top: -1rem;
 }
 
 

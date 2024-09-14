@@ -66,7 +66,7 @@ form > h1{
 /* Form Floating */
 .form-floating {
     position: relative;
-    border: 1px solid rgba(0, 0, 0, 0.445);
+    border: 1px solid rgba(0, 0, 0, 0.377);
     margin-bottom: 5px;
 }
 .form-floating > input:not([type=submit]) {
@@ -103,6 +103,60 @@ input[type=submit] {
 footer{
     font-size: var(--size-0);
 }
+
+
+
+/* For PC 1920 x 1080p design */
+/* Added 6px */
+@media(min-width: 1920px){
+    .header_logo{
+        width: 250px;
+    }
+    main{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .section-2, .section-1{
+        height: 100%;
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    form > h1{
+        font-size: 1.8rem; /*Added 6px for desktop design*/
+        font-weight: 700;
+    }
+    form{
+        width: 50%;
+        margin-top: -5rem;
+    }
+    /* Added 6px until to the next comment */
+    .form-floating{
+        margin-bottom: 11px;
+    }
+    .form-floating > input:not([type=submit]) {
+        padding: 24px 16px 11px 16px;
+    }
+    .form-floating > label {
+        left: 16px;
+    }
+    input[type=submit] {
+        padding: 10px 0;
+        font-size: 1rem; /*Added 4px*/
+    }
+    /* Ended of form adding 6px */
+    footer {
+        font-size: var(--size-1);
+        text-align: center;
+        padding: 1rem 0;
+        box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1); /* Shadow on top */
+    }    
+}
+
 
 
 

@@ -92,36 +92,36 @@ function validate(event) {
     // })
 // }
 
-document.getElementById('zip').addEventListener('keyup', function(event) {
-    // console.log(event.target.value);
-    const zip = document.getElementById("zip").value;
-    if(zip.length >= 4){
-        fetch(`http://api.zippopotam.us/ph/${event.target.value}`)
-        .then(res => res.json())
-        .then(data =>{
-            console.log(data.places[0]['place name'])
-            document.getElementById('city').value = data.places[0]['place name'];
-        })
-    }
-});
-
 // document.getElementById('zip').addEventListener('keyup', function(event) {
-//     const zip = event.target.value;
-
-//     if (zip.length >= 4) {  // Adjust length based on your requirements
-//         fetch(`http://api.zippopotam.us/ph/${zip}`)
+//     // console.log(event.target.value);
+//     const zip = document.getElementById("zip").value;
+//     if(zip.length >= 4){
+//         fetch(`http://api.zippopotam.us/ph/${event.target.value}`)
 //         .then(res => res.json())
-//         .then(data => {
-//             if (data.places && data.places.length > 0) {
-//                 document.getElementById('city').value = data.places[0]['place name'];
-//             }
+//         .then(data =>{
+//             console.log(data.places[0]['place name'])
+//             document.getElementById('city').value = data.places[0]['place name'];
 //         })
-//         .catch(err => {
-//             console.error('Error:', err);
-//             document.getElementById('city').value = '';
-//         });
 //     }
 // });
+
+document.getElementById('zip').addEventListener('keyup', function(event) {
+    const zip = event.target.value;
+
+    if (zip.length >= 4) {  // Adjust length based on your requirements
+        fetch(`http://api.zippopotam.us/ph/${zip}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.places && data.places.length > 0) {
+                document.getElementById('city').value = data.places[0]['place name'];
+            }
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            document.getElementById('city').value = '';
+        });
+    }
+});
 
 
 

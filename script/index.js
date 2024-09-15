@@ -1,96 +1,142 @@
 
 let error;
 
-function validate(event) {
-    event.preventDefault();
-    
-    const fname = document.form.firstname.value;
-    // const zip = document.form.zip.value;
-
-    // for(let i = 0; i < fname.length - 2; i++) {
-    //     if(fname[i] == fname[i+1] && fname[i] == fname[i+2]) {
-    //         alert("Three consecutive duplicate characters found");
-    //         return false;
-    //     }
-    // }
-
-
-    // Minimum and Maximum
-    if(fname.length < 1) {
-        alert("Name must be alteast 2 characters")
-    }else if(fname.length > 50){
-        alert("Name must be less than 50 characters")
-    }else{
-        alert("Name is valid");
+class DataFromForm{
+    constructor(firstname, lastname, middleinitial, extensionname, email, sex, purok, barangay, province, country, zip, username, password, reenterpassword){
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.middleinitial = middleinitial;
+        this.extensionname = extensionname;
+        this.email = email;
+        this.sex = sex;
+        this.purok = purok;
+        this.barangay = barangay;
+        this.province = province;
+        this.country = country;
+        this.zip = zip;
+        this.username = username;
+        this.password = password;
+        this.reenterpassword = reenterpassword;
     }
+}
 
-    console.log(fname.search(/\d/));    
-    // Contain a number
-    // if(fname.search(/\d/) == -1) {
-    //     alert("Name must contain a number");
-    // }
 
-    // Three consecutive duplicate characters found
+function check_consecutive_input_letter(data){
     let consecutiveCount = 1;
-
-    for (let i = 1; i < fname.length; i++) {
-        if (fname[i] === fname[i - 1]) {
+    data = data.toLowerCase();
+    for (let i = 1; i < data.length; i++) {
+        if (data[i] === data[i - 1]) {
             consecutiveCount++;
             if (consecutiveCount === 3) {
                 alert("Three consecutive duplicate characters found");
-                return false;
+                return true;
             }
         } else {
             consecutiveCount = 1; 
+            return false
         }
     }
-
-    
-    // console.log(fname)
-    // if(fname == ""){
-    //     alert("Please enter your first name");
-    // }else if(fname === null){
-    //     alert("Please enter your first name");
-    // }else if(fname =="  "){
-    //     alert("Please remove the space");
-    // }else{
-    //     alert("First name is valid");
-    // }
-    
-    // if (!filterInput(fname)) {
-    //     console.log(error);
-    //     document.myForm.fname.style.border = "1px solid red";
-    // }else{
-    //     document.myForm.fname.style.border = "";
-    // }
-    
-    // return false;
 }
 
-// function filterInput(str) {
-//     if (str == null || str.trim() === "") {
-//         error = "Name must not be empty!";
-//         return false;
-//     }
+function hasAnumber(str) {
+    return /\d/.test(str);
+}
 
-//     if (/\d/.test(str)) {
-//         error = "Name must not contain numbers!";
-//         return false;
-//     }
+function capitalizeFirstLetters(str) {
+    return str
+        .split(' ')              // Split the string into words
+        .map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()  // Capitalize the first letter and lower case the rest
+        )
+        .join(' ');              // Join the words back into a single string
+}
 
-//     return true;
-// }
+function checkPasswordStrength(password) {
+    const strength = {
+        weak: /^(?=.{6,})(?!.*[a-zA-Z0-9]).*$/,
+        medium: /^(?=.*[a-zA-Z])(?=.*\d)(?=.{8,}).*$/,
+        strong: /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;"'<>,.?/~`]).{12,}$/,
+    };
 
-// function onkeyup(event){
-//     console.log(event.target.value)
-    // const zip = document.getElementById("zip").value;
-    // fetch(`http://api.zippopotam.us/ph/${zip}`)
-    // .then(res => res.json())
-    // .then(data =>{
-    //     console.log(data.places[0]['place name'])
+    if (strength.strong.test(password)) {
+        return "strong";
+    } else if (strength.medium.test(password)) {
+        return "medium";
+    } else if (strength.weak.test(password)) {
+        return "weak";
+    } else {
+        return "invalid";
+    }
+}
 
-    // })
-// }
+function validatePassword(password, reEnteredPassword) {
+    if (password !== reEnteredPassword) {
+        return "Passwords do not match";
+    }
+
+    const strength = checkPasswordStrength(password);
+
+    if (strength === "invalid") {
+        return "Password does not meet the criteria";
+    }
+
+    return `Password is ${strength}`;
+}
+
+// Example usage
+// const password = "Password123!";
+// const reEnteredPassword = "Password123!";
+
+// console.log(validatePassword(password, reEnteredPassword));  // Output: "Password is strong"
+
+
+
+
+function minmax(str){
+    if(str.length < 1) {
+        alert("Name must be alteast 2 characters")
+        return false
+    }else if(str.length > 50){
+        alert("Name must be less than 50 characters")
+        return false
+    }else{
+        alert("Name is valid");
+        return true;
+    }
+}
+
+
+
+function validate(event) {
+    event.preventDefault();
+
+
+    const fname = document.form.firstname.value;
+    const lname = document.form.lastname.value;
+    const middleInitial = document.form.middleinitial.value;
+    const extensionname = document.form.extensionname.value;
+    const email = document.form.email.value;
+    const sex = document.form.sex.value;
+    const purok = document.form.purok.value;
+    const barangay = document.form.barangay.value;
+    const city = document.form.city.value;
+    const province = document.form.city.value;
+    const zip = document.form.zip.value;
+    const username = document.form.username.value;
+    const password = document.form.password.value;
+    const reenteredPassword = document.form.reenteredPassword.value;
+
+
+    // Minimum and Maximum
+    if(minmax(fname)){
+        console.log(`First name must be atleast 2 characters`);
+    }else if(minmax(lname)){
+        console.log(`Last name must be atleast 2 characters`)
+    }else{
+        console.log(`First name and Last name are valid`)
+    }
+}
+
 
 // document.getElementById('zip').addEventListener('keyup', function(event) {
 //     // console.log(event.target.value);
@@ -108,7 +154,7 @@ function validate(event) {
 document.getElementById('zip').addEventListener('keyup', function(event) {
     const zip = event.target.value;
 
-    if (zip.length >= 4) {  // Adjust length based on your requirements
+    if (zip.length > 3) { 
         fetch(`http://api.zippopotam.us/ph/${zip}`)
         .then(res => res.json())
         .then(data => {

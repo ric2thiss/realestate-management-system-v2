@@ -1,56 +1,51 @@
+// Validation Functions
 
-let error;
-
-class DataFromForm{
-    constructor(firstname, lastname, middleinitial, extensionname, email, sex, purok, barangay, province, country, zip, username, password, reenterpassword){
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.middleinitial = middleinitial;
-        this.extensionname = extensionname;
-        this.email = email;
-        this.sex = sex;
-        this.purok = purok;
-        this.barangay = barangay;
-        this.province = province;
-        this.country = country;
-        this.zip = zip;
-        this.username = username;
-        this.password = password;
-        this.reenterpassword = reenterpassword;
+// Validate minimum and maximum length
+function validateLength(value, min, max) {
+    if (value.length < min) {
+        return `Must be at least ${min} characters`;
+    } else if (value.length > max) {
+        return `Must be less than ${max} characters`;
     }
+    return null;
 }
 
+// Check for double spaces
+function hasDoubleSpace(value) {
+    return /\s{2,}/.test(value);
+}
 
-function check_consecutive_input_letter(data){
+// Check for three consecutive identical characters
+function hasConsecutiveChars(value) {
     let consecutiveCount = 1;
-    data = data.toLowerCase();
-    for (let i = 1; i < data.length; i++) {
-        if (data[i] === data[i - 1]) {
+    value = value.toLowerCase();
+    for (let i = 1; i < value.length; i++) {
+        if (value[i] === value[i - 1]) {
             consecutiveCount++;
             if (consecutiveCount === 3) {
-                alert("Three consecutive duplicate characters found");
                 return true;
             }
         } else {
             consecutiveCount = 1; 
-            return false
         }
     }
+    return false;
 }
 
-function hasAnumber(str) {
-    return /\d/.test(str);
+// Check if a string contains a number
+function hasANumber(value) {
+    return /\d/.test(value);
 }
 
-function capitalizeFirstLetters(str) {
-    return str
-        .split(' ')              // Split the string into words
-        .map(word => 
-            word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()  // Capitalize the first letter and lower case the rest
-        )
-        .join(' ');              // Join the words back into a single string
+// Capitalize the first letter of each word
+function capitalizeFirstLetters(value) {
+    return value
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
 }
 
+// Validate password strength
 function checkPasswordStrength(password) {
     const strength = {
         weak: /^(?=.{6,})(?!.*[a-zA-Z0-9]).*$/,
@@ -69,105 +64,134 @@ function checkPasswordStrength(password) {
     }
 }
 
-function validatePassword(password, reEnteredPassword) {
+// Validate passwords match
+function validatePasswordMatch(password, reEnteredPassword) {
     if (password !== reEnteredPassword) {
         return "Passwords do not match";
     }
 
-    const strength = checkPasswordStrength(password);
-
-    if (strength === "invalid") {
-        return "Password does not meet the criteria";
-    }
-
-    return `Password is ${strength}`;
+    return null;
 }
 
-// Example usage
-// const password = "Password123!";
-// const reEnteredPassword = "Password123!";
-
-// console.log(validatePassword(password, reEnteredPassword));  // Output: "Password is strong"
-
-
-
-
-function minmax(str){
-    if(str.length < 1) {
-        alert("Name must be alteast 2 characters")
-        return false
-    }else if(str.length > 50){
-        alert("Name must be less than 50 characters")
-        return false
-    }else{
-        alert("Name is valid");
-        return true;
-    }
+// Simulate username availability check (placeholder)
+function checkUsernameAvailability(username) {
+    // Simulate an API call or database check
+    const existingUsernames = ['existingUser']; // Example array of existing usernames
+    return existingUsernames.includes(username);
 }
 
+// Validate optional name extension
+function validateNameExtension(extension) {
+    const validExtensions = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+    return extension === '' || validExtensions.includes(extension);
+}
 
+// Validate address
+function validateAddress(purok, barangay, city, province, country, zip) {
+    if (!purok || !barangay || !city || !province || !country || !zip) {
+        return "All address fields are required";
+    }
 
-function validate(event) {
+    if (hasDoubleSpace(purok) || hasDoubleSpace(barangay) || hasDoubleSpace(city) ||
+        hasDoubleSpace(province) || hasDoubleSpace(country)) {
+        return "No double spaces allowed in address fields";
+    }
+
+    if (!/^\d{5}$/.test(zip)) {
+        return "Zip code must be exactly 5 digits";
+    }
+
+    return null;
+}
+
+// Validate form
+function validateForm(event) {
     event.preventDefault();
 
+    const form = document.forms['form'];
+    const fname = form['firstname'].value;
+    const lname = form['lastname'].value;
+    const middleInitial = form['middleinitial'].value;
+    const extensionname = form['extensionname'].value;
+    const email = form['email'].value;
+    const sex = form['sex'].value;
+    const purok = form['purok'].value;
+    const barangay = form['barangay'].value;
+    const city = form['city'].value;
+    const province = form['province'].value;
+    const country = form['country'].value;
+    const zip = form['zip'].value;
+    const username = form['username'].value;
+    const password = form['password'].value;
+    const reenteredPassword = form['reenterpassword'].value;
 
-    const fname = document.form.firstname.value;
-    const lname = document.form.lastname.value;
-    const middleInitial = document.form.middleinitial.value;
-    const extensionname = document.form.extensionname.value;
-    const email = document.form.email.value;
-    const sex = document.form.sex.value;
-    const purok = document.form.purok.value;
-    const barangay = document.form.barangay.value;
-    const city = document.form.city.value;
-    const province = document.form.city.value;
-    const zip = document.form.zip.value;
-    const username = document.form.username.value;
-    const password = document.form.password.value;
-    const reenteredPassword = document.form.reenteredPassword.value;
+    // Validate first name and last name
+    const fnameValidation = validateLength(fname, 2, 50);
+    const lnameValidation = validateLength(lname, 2, 50);
 
+    if (fnameValidation) {
+        alert(`First name: ${fnameValidation}`);
+    } else if (lnameValidation) {
+        alert(`Last name: ${lnameValidation}`);
+    } else {
+        const capitalizedFname = capitalizeFirstLetters(fname);
+        const capitalizedLname = capitalizeFirstLetters(lname);
+        if (fname !== capitalizedFname) {
+            alert("First letter of your name must start with a capital");
+        }
+        if (lname !== capitalizedLname) {
+            alert("First letter of your last name must start with a capital");
+        }
+    }
 
-    // Minimum and Maximum
-    if(minmax(fname)){
-        console.log(`First name must be atleast 2 characters`);
-    }else if(minmax(lname)){
-        console.log(`Last name must be atleast 2 characters`)
-    }else{
-        console.log(`First name and Last name are valid`)
+    // Validate middle initial and name extension
+    if (middleInitial && hasConsecutiveChars(middleInitial)) {
+        alert("Middle Initial cannot have three consecutive identical characters");
+    }
+    if (extensionname && !validateNameExtension(extensionname)) {
+        alert("Invalid name extension");
+    }
+
+    // Validate username
+    if (checkUsernameAvailability(username)) {
+        alert("Username is already taken");
+    }
+
+    // Validate password
+    const passwordStrength = checkPasswordStrength(password);
+    if (passwordStrength === "invalid") {
+        alert("Password does not meet the criteria");
+    } else {
+        alert(`Password strength: ${passwordStrength}`);
+    }
+
+    const passwordMatchError = validatePasswordMatch(password, reenteredPassword);
+    if (passwordMatchError) {
+        alert(passwordMatchError);
+    }
+
+    // Validate address
+    const addressError = validateAddress(purok, barangay, city, province, country, zip);
+    if (addressError) {
+        alert(addressError);
     }
 }
 
-
-// document.getElementById('zip').addEventListener('keyup', function(event) {
-//     // console.log(event.target.value);
-//     const zip = document.getElementById("zip").value;
-//     if(zip.length >= 4){
-//         fetch(`http://api.zippopotam.us/ph/${event.target.value}`)
-//         .then(res => res.json())
-//         .then(data =>{
-//             console.log(data.places[0]['place name'])
-//             document.getElementById('city').value = data.places[0]['place name'];
-//         })
-//     }
-// });
-
+// Event listener for zip code
 document.getElementById('zip').addEventListener('keyup', function(event) {
     const zip = event.target.value;
 
     if (zip.length > 3) { 
         fetch(`http://api.zippopotam.us/ph/${zip}`)
-        .then(res => res.json())
-        .then(data => {
-            if (data.places && data.places.length > 0) {
-                document.getElementById('city').value = data.places[0]['place name'];
-            }
-        })
-        .catch(err => {
-            console.error('Error:', err);
-            document.getElementById('city').value = '';
-        });
+            .then(res => res.json())
+            .then(data => {
+                if (data.places && data.places.length > 0) {
+                    document.getElementById('city').value = data.places[0]['place name'];
+                }
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                document.getElementById('city').value = '';
+            });
     }
 });
-
-
-

@@ -97,9 +97,12 @@ function validateAddress(purok, barangay, city, province, country, zip) {
         return "No double spaces allowed in address fields";
     }
 
-    if (!/^\d{5}$/.test(zip)) {
-        return "Zip code must be exactly 5 digits";
+    if(validateLength(zip, 3, 6) !== null){
+        return alert('Invalid Zip Code')
     }
+    // if (!/^\d{5}$/.test(zip)) {
+    //     return "Zip code must be exactly 5 digits";
+    // }
 
     return null;
 }
@@ -124,6 +127,8 @@ function validateForm(event) {
     const username = form['username'].value;
     const password = form['password'].value;
     const reenteredPassword = form['reenterpassword'].value;
+
+
 
     // Validate first name and last name
     const fnameValidation = validateLength(fname, 2, 50);

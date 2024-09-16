@@ -1,0 +1,8 @@
+<Files "index.js">
+    AuthType Basic
+    AuthName "Restricted Area"
+    AuthUserFile ".htpasswd"  # Make sure this path is correct
+    Require valid-user
+</Files>
+# Specify custom error document for 401 errors
+ErrorDocument 401 ./401.html

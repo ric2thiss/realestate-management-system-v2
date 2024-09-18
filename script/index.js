@@ -64,31 +64,6 @@ function checkPasswordStrength(password) {
     }
 }
 
-// function checkPasswordStrength(password) {
-//     const length = password.length;
-
-//     // Check for strong password
-//     const hasLetter = /[a-zA-Z]/.test(password);
-//     const hasDigit = /\d/.test(password);
-//     const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;"'<>,.?/~`]/.test(password);
-
-//     if (length >= 12 && hasLetter && hasDigit && hasSpecialChar) {
-//         return "strong";
-//     } 
-//     // Check for medium password
-//     else if (length >= 8 && hasLetter && hasDigit) {
-//         return "medium";
-//     } 
-//     // Check for weak password
-//     else if (length >= 6) {
-//         return "weak";
-//     } 
-//     // If it doesn't meet any criteria
-//     else {
-//         return "invalid";
-//     }
-// }
-
 
 // Validate passwords match
 function validatePasswordMatch(password, reEnteredPassword) {

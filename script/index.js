@@ -17,16 +17,16 @@ function hasDoubleSpace(value) {
 
 // Check for three consecutive identical characters
 function hasConsecutiveChars(value) {
-    let consecutiveCount = 1;
+    let consecutiveLetterCount = 1;
     value = value.toLowerCase();
     for (let i = 1; i < value.length; i++) {
         if (value[i] === value[i - 1]) {
-            consecutiveCount++;
-            if (consecutiveCount === 3) {
+            consecutiveLetterCount++;
+            if (consecutiveLetterCount === 3) {
                 return true;
             }
         } else {
-            consecutiveCount = 1; 
+            consecutiveLetterCount = 1; 
         }
     }
     return false;
@@ -63,6 +63,32 @@ function checkPasswordStrength(password) {
         return "invalid";
     }
 }
+
+// function checkPasswordStrength(password) {
+//     const length = password.length;
+
+//     // Check for strong password
+//     const hasLetter = /[a-zA-Z]/.test(password);
+//     const hasDigit = /\d/.test(password);
+//     const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;"'<>,.?/~`]/.test(password);
+
+//     if (length >= 12 && hasLetter && hasDigit && hasSpecialChar) {
+//         return "strong";
+//     } 
+//     // Check for medium password
+//     else if (length >= 8 && hasLetter && hasDigit) {
+//         return "medium";
+//     } 
+//     // Check for weak password
+//     else if (length >= 6) {
+//         return "weak";
+//     } 
+//     // If it doesn't meet any criteria
+//     else {
+//         return "invalid";
+//     }
+// }
+
 
 // Validate passwords match
 function validatePasswordMatch(password, reEnteredPassword) {

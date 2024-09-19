@@ -32,6 +32,7 @@
         <section class="container-90 section-1">
             <form name="form"
             onsubmit="return validateRegForm(event)"
+            method="POST"
             >
             
                 <h1>Create Account</h1>
@@ -91,11 +92,11 @@
                         <input type="text" name="username" id="username" >
                       </div>
                     <div class="form-floating grid-item-14">
-                      <label for="password" id="password-strength">Password </label>
+                      <label for="password" style="display: flex; gap:1rem;">Password <div id="password-strength"></div></label>
                       <input type="password" name="password" id="password" >
                     </div>
                     <div class="form-floating grid-item-15">
-                        <label for="reenterpassword" id="password-strength">Re-Enter Password</label>
+                        <label for="reenterpassword" style="display: flex; gap:1rem;">Re-Enter Password <div id="password-match"></div></label>
                         <input type="password" name="reenterpassword" id="reenterpassword" >
                     </div>
                     <input type="submit" value="Create Account" class="grid-item-16">

@@ -29,45 +29,34 @@ document.getElementById("password").addEventListener("keyup", (event) => {
     const strengthDiv = document.getElementById("password-strength");
     switch (strength) {
         case "strong":
-            strengthDiv.textContent = "Password strength: Strong";
+            strengthDiv.textContent = " * Password strength: Strong";
             strengthDiv.style.color = "green";
             break;
         case "medium":
-            strengthDiv.textContent = "Password strength: Medium";
+            strengthDiv.textContent = "* Password strength: Medium";
             strengthDiv.style.color = "orange";
             break;
         case "weak":
-            strengthDiv.textContent = "Password strength: Weak";
+            strengthDiv.textContent = "* Password strength: Weak";
             strengthDiv.style.color = "red";
             break;
         default:
-            strengthDiv.textContent = "Password";
-            strengthDiv.style.color = "black";
+            strengthDiv.textContent = "";
     }
 });
 
 // Re-Enter Password
 document.getElementById("reenterpassword").addEventListener("keyup", (event) => {
-    const password = event.target.value;
-    const strength = checkPasswordStrength(password);
-
-    // Display the strength result
-    const strengthDiv = document.getElementById("password-strength");
-    switch (strength) {
-        case "strong":
-            strengthDiv.textContent = "Password strength: Strong";
-            strengthDiv.style.color = "green";
-            break;
-        case "medium":
-            strengthDiv.textContent = "Password strength: Medium";
-            strengthDiv.style.color = "orange";
-            break;
-        case "weak":
-            strengthDiv.textContent = "Password strength: Weak";
-            strengthDiv.style.color = "red";
-            break;
-        default:
-            strengthDiv.textContent = "Password";
+    const reenteredPassword = event.target.value;
+    const isMatched = validatePasswordMatch(document.getElementById("password").value, reenteredPassword);
+    if(!isMatched){
+        document.getElementById("password-match").textContent = "Matched Password";
+    }else{
+        document.getElementById("password-match").textContent = "Password does not match";
+    }
+    
+    if(reenteredPassword == ""){
+        document.getElementById("password-match").textContent = "";
     }
 });
 // Reusable Functions
@@ -316,5 +305,59 @@ function validateRegForm(event) {
         return;
     }
 
-    alert("Registration is successful!");
+    // alert("Registration is successful!");
+
+    if (!firstnameValidation && !lastnameValidation && !middleinitialValidation && 
+        !emailValidation && !sexValidation && !addressValidation && 
+        !usernameValidation && usernameExists === false && passwordValidation !== "invalid" && 
+        !passwordMatchValidation && !extensionnameValidation) {
+        
+        const registrationData = {
+            firstname,
+            lastname,
+            email,
+            sex,
+            purok,
+            barangay,
+            city,
+            province,
+            country,
+            zip,
+            username,
+            password,
+            middleinitial,
+            extensionname
+        };
+    
+        // Send POST request
+        fetch('http://localhost/IT107/server/registration.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(registrationData)
+        })
+        .then(response => {
+            console.log("Response:", response); // Log the entire response for debugging
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error(text || 'Network response was not ok');
+                });
+            }
+            return response.json(); // Ensure the response is JSON
+        })
+        .then(data => {
+            // Handle successful registration response
+            alert(data.success);
+            alert(data.error); // Log the response data for debugging
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('Error:', error);
+            alert("There was an error during registration: " + error.message);
+        });
+        
+    }
+    
 }
+

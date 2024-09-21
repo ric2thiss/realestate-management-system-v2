@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $data = json_decode(file_get_contents("php://input"), true);
-
+    // I removed this because for wala lang hahahah kay basin naa nasab mag alert nga undefined
     // if ($data === null) {
     //     echo json_encode(["error" => "Invalid JSON data."]);
     //     exit;

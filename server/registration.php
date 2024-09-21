@@ -1,16 +1,16 @@
 <?php
-require('db.php'); // Include database connection file
-header('Content-Type: application/json'); // Set content type to JSON
+require('db.php'); 
+header('Content-Type: application/json');
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $data = json_decode(file_get_contents("php://input"), true);
 
-    if ($data === null) {
-        echo json_encode(["error" => "Invalid JSON data."]);
-        exit;
-    }
+    // if ($data === null) {
+    //     echo json_encode(["error" => "Invalid JSON data."]);
+    //     exit;
+    // }
 
     // Retrieve and trim form inputs
     $firstname = trim($data["firstname"] ?? '');
@@ -39,10 +39,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // Validate email
-    // if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    //     echo json_encode(["error" => "Invalid email format."]);
-    //     exit;
-    // }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(["error" => "Invalid email format."]);
+        exit;
+    }
 
     // Check if username or email already exists
     if (usernameExists($username) || emailExists($email)) {

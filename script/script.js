@@ -262,6 +262,10 @@ function validateRegForm(event) {
         alert(middleinitialValidation);
         return;
     }
+    if (extensionnameValidation) {
+        alert(extensionnameValidation);
+        return;
+    }
 
     if (emailValidation) {
         alert(emailValidation);
@@ -283,16 +287,14 @@ function validateRegForm(event) {
         return;
     }
 
-    if (usernameExists) {
-        alert("Username already exists. Please choose a different one.");
-        return;
-    }
+    // if (usernameExists) {
+    //     alert("Username already exists. Please choose a different one.");
+    //     return;
+    // }
 
     if (passwordValidation === "invalid") {
         alert("Password must be at least 8 characters long and contain letters and numbers.");
         return;
-    }else{
-        alert(passwordValidation)
     }
 
     if (passwordMatchValidation) {
@@ -300,18 +302,7 @@ function validateRegForm(event) {
         return;
     }
 
-    if (extensionnameValidation) {
-        alert(extensionnameValidation);
-        return;
-    }
-
     // alert("Registration is successful!");
-
-    if (!firstnameValidation && !lastnameValidation && !middleinitialValidation && 
-        !emailValidation && !sexValidation && !addressValidation && 
-        !usernameValidation && usernameExists === false && passwordValidation !== "invalid" && 
-        !passwordMatchValidation && !extensionnameValidation) {
-        
         const registrationData = {
             firstname,
             lastname,
@@ -340,24 +331,24 @@ function validateRegForm(event) {
         .then(response => {
             console.log("Response:", response); // Log the entire response for debugging
             if (!response.ok) {
-                return response.text().then(text => {
-                    throw new Error(text || 'Network response was not ok');
-                });
+                // return response.text().then(text => {
+                //     throw new Error(text || 'Network response was not ok');
+                // });
+
+                console.log("Response:", response); 
             }
             return response.json(); // Ensure the response is JSON
         })
         .then(data => {
             // Handle successful registration response
-            alert(data.success);
-            alert(data.error); // Log the response data for debugging
+            if(data.success) alert(data.success);
+            if(data.error) alert(data.error); // Log the response data for debugging
         })
         .catch(error => {
             // Handle errors
             console.error('Error:', error);
             alert("There was an error during registration: " + error.message);
         });
-        
-    }
     
 }
 

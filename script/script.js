@@ -1,5 +1,7 @@
 "use strict";
 
+// Specified functions
+
 // Event listener for zip code
 document.getElementById('zip').addEventListener('keyup', function(event) {
     const zip = event.target.value;
@@ -59,6 +61,9 @@ document.getElementById("reenterpassword").addEventListener("keyup", (event) => 
         document.getElementById("password-match").textContent = "";
     }
 });
+
+
+
 // Reusable Functions
 
 // Validate length of input
@@ -219,7 +224,9 @@ function validateRegForm(event) {
 
     // Check double spaces
     if (hasDoubleSpace(firstname) || hasDoubleSpace(lastname) || hasDoubleSpace(username)) {
-        alert("No double spaces allowed in names or username.");
+        // alert("No double spaces allowed in names or username.");
+        error.textContent = `No double spaces allowed in names or username`;
+        errorDivContainer.style.transform = "translateX(0)"; 
         return;
     }
 
@@ -227,7 +234,9 @@ function validateRegForm(event) {
     const fieldsToCheck = [firstname, lastname, username, password];
     for (let field of fieldsToCheck) {
         if (hasConsecutiveChars(field)) {
-            alert("No three consecutive identical characters allowed.");
+            // alert("No three consecutive identical characters allowed.");
+            error.textContent = `No three consecutive identical characters allowed.`;
+            errorDivContainer.style.transform = "translateX(0)"; 
             return;
         }
     }
@@ -240,7 +249,7 @@ function validateRegForm(event) {
     const sexValidation = validateSex(sex);
     const addressValidation = validateAddress(purok, barangay, city, province, country, zip);
     const usernameValidation = validateLength("Username", username, 3, 50);
-    const usernameExists = checkUsernameExists(username); // Placeholder for checking username existence
+    // const usernameExists = checkUsernameExists(username); // Placeholder for checking username existence. Already implemented the logic in the server
     const passwordValidation = checkPasswordStrength(password);
     const passwordMatchValidation = validatePasswordMatch(password, reenterpassword);
     const extensionnameValidation = validateNameExtension(extensionname);
@@ -248,42 +257,62 @@ function validateRegForm(event) {
     
 
     // Display validation errors
+    const errorDivContainer = document.querySelector(".err-div");
+    const error = document.querySelector(".error");
+    errorDivContainer.addEventListener("click", ()=>{
+        errorDivContainer.style.transform = "translateX(-100%)";
+    })
+
+
     if (firstnameValidation) {
-        alert(firstnameValidation);
+        // alert(firstnameValidation);
+        error.textContent = `${firstnameValidation}`;
+        errorDivContainer.style.transform = "translateX(0)"; // Slide in
         return;
     }
-
     if (lastnameValidation) {
-        alert(lastnameValidation);
+        // alert(lastnameValidation);
+        error.textContent = lastnameValidation;
+        errorDivContainer.style.transform = "translateX(0)"; 
         return;
     }
-
     if (middleinitialValidation) {
-        alert(middleinitialValidation);
+        // alert(middleinitialValidation);
+        error.textContent = middleinitialValidation;
+        errorDivContainer.style.transform = "translateX(0)"; 
         return;
     }
     if (extensionnameValidation) {
-        alert(extensionnameValidation);
+        // alert(extensionnameValidation);
+        error.textContent = extensionnameValidation;
+        errorDivContainer.style.transform = "translateX(0)";
         return;
     }
-
     if (emailValidation) {
-        alert(emailValidation);
+        // alert(emailValidation);
+        error.textContent = emailValidation;
+        errorDivContainer.style.transform = "translateX(0)";
         return;
     }
 
     if (sexValidation) {
-        alert(sexValidation);
+        // alert(sexValidation);
+        error.textContent = sexValidation;
+        errorDivContainer.style.transform = "translateX(0)";
         return;
     }
 
     if (addressValidation) {
-        alert(addressValidation);
+        // alert(addressValidation);
+        error.textContent = addressValidation;
+        errorDivContainer.style.transform = "translateX(0)";
         return;
     }
 
     if (usernameValidation) {
-        alert(usernameValidation);
+        // alert(usernameValidation);
+        error.textContent = usernameValidation;
+        errorDivContainer.style.transform = "translateX(0)";
         return;
     }
 
@@ -293,16 +322,22 @@ function validateRegForm(event) {
     // }
 
     if (passwordValidation === "invalid") {
-        alert("Password must be at least 8 characters long and contain letters and numbers.");
+        // alert("Password must be at least 8 characters long and contain letters and numbers.");
+        error.textContent = "Password must be at least 8 characters long and contain letters and numbers.";
+        errorDivContainer.style.transform = "translateX(0)";
         return;
     }
 
     if (passwordMatchValidation) {
-        alert(passwordMatchValidation);
+        // alert(passwordMatchValidation);
+        error.textContent = passwordMatchValidation;
+        errorDivContainer.style.transform = "translateX(0)";
         return;
     }
 
     // alert("Registration is successful!");
+
+    // After the restriction: This part make the data to be an object form
         const registrationData = {
             firstname,
             lastname,
@@ -320,7 +355,7 @@ function validateRegForm(event) {
             extensionname
         };
     
-        // Send POST request
+        // Send POST request to this endpoint 
         fetch('http://localhost/IT107/server/registration.php', {
             method: 'POST',
             headers: {
@@ -341,7 +376,7 @@ function validateRegForm(event) {
         })
         .then(data => {
             // Handle successful registration response
-            if(data.success) alert(data.success);
+            if(data.success) alert(data.success)
             if(data.error) alert(data.error); // Log the response data for debugging
         })
         .catch(error => {

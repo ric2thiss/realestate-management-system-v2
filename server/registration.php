@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $reenterpassword = trim($data["reenterpassword"] ?? '');
 
     // Validate passwords match
-    // if ($password !== $reenterpassword) {
+    // if ($password != $reenterpassword) {
     //     echo json_encode(["error" => "Passwords do not match."]);
     //     exit;
     // }
@@ -84,7 +84,6 @@ function insertData($firstname, $lastname, $middleinitial, $extensionname, $emai
 
         return $stmt->execute();
     } catch (PDOException $e) {
-        // Handle errors (consider logging instead of echoing in production)
         error_log("Database error: " . $e->getMessage());
         echo json_encode(["error" => "An internal error occurred."]);
         return false;

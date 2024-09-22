@@ -29,6 +29,38 @@ if you want to add custom styling in grandchild just add _ _ (double)
     max-width: 90%;
     margin: 0 auto;
 }
+/* Error div which is in the upper part of the header element */
+.err-div {
+    background-color: rgba(0, 0, 0, 0.288);
+    position: fixed;
+    backdrop-filter: blur(2px);
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease-in-out; /* Added transition */
+}
+.error-message-container{
+    background-color: #ffff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1rem 1.5rem;
+
+
+}
+.error {
+    /* background-color: #ffff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1rem 1.5rem; */
+
+}
+
+/* End */
 header{
     position: sticky;
     top: 0;

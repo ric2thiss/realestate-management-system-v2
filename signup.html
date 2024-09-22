@@ -3,14 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real Estate Management System - Login</title>
+    <title>Real Estate Management System - Create Account</title>
     <link rel="stylesheet" href="styles/style.css">
-
-
     <!-- TailwindCSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+    integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+    <div class="err-div">
+        <div class="error-message-container">
+            <div class="message p-2 text-center " style="color: red; font-size: 1.3rem;">
+                <i class="fa-solid fa-circle-xmark"></i> ERROR MESSAGE
+            </div>
+            <div class="error p-2"></div>
+        </div>
+    </div>
     <header>
         <section class="container-90">
             <div class="header_logo">
@@ -31,7 +41,7 @@
                 <hr>
                 <div class="grid-container">
                     <div class="form-floating grid-item-1">
-                        <label for="firstname">First Name</label>
+                        <label for="firstname">First Name </label>
                         <input type="text" name="firstname" id="firstname" placeholder="" >
                     </div>
                     <div class="form-floating grid-item-2">
@@ -103,6 +113,6 @@
         <p class="container-90"> &copy; 2024 Real Estate Management System. Developed by PAQUIBOT.</p>
     </footer>
 
-    <!-- <script src="script/script.js"></script> -->
+    <script src="script/script.js"></script>
 </body>
 </html>

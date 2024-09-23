@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 function insertData($firstname, $lastname, $middleinitial, $extensionname, $email, $sex, $purok, $barangay, $city, $province, $country, $zip, $username, $password) {
     try {
         $conn = DbConnection(); // Get the database connection
-        $sql = "INSERT INTO users (First_Name, Last_Name, Middle_Initial, Extension_Name, Email, Sex, Purok, Barangay, City, Province, Country, Zip_Code, Username, Password)
+        $sql = "INSERT INTO users_credential (First_Name, Last_Name, Middle_Initial, Extension_Name, Email, Sex, Purok, Barangay, City, Province, Country, Zip_Code, Username, Password)
                 VALUES (:firstname, :lastname, :middleinitial, :extensionname, :email, :sex, :purok, :barangay, :city, :province, :country, :zip, :username, :password)";
 
         $stmt = $conn->prepare($sql);
@@ -92,7 +92,7 @@ function insertData($firstname, $lastname, $middleinitial, $extensionname, $emai
 
 function usernameExists($username) {
     $conn = DbConnection();
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE Username = :username");
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM users_credential WHERE Username = :username");
     $stmt->bindParam(':username', $username);
     $stmt->execute();
     return $stmt->fetchColumn() > 0;
@@ -100,7 +100,7 @@ function usernameExists($username) {
 
 function emailExists($email) {
     $conn = DbConnection();
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE Email = :email");
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM users_credential WHERE Email = :email");
     $stmt->bindParam(':email', $email);
     $stmt->execute();
     return $stmt->fetchColumn() > 0;

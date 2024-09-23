@@ -1,5 +1,66 @@
+"use strict";
+
+// Specified functions
+
+// Event listener for zip code
+document.getElementById('zip').addEventListener('keyup', function(event) {
+    const zip = event.target.value;
+
+    if (zip.length > 3) { 
+        fetch(`https://api.zippopotam.us/ph/${zip}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.places && data.places.length > 0) {
+                    document.getElementById('city').value = data.places[0]['place name'];
+                }
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                document.getElementById('city').value = '';
+            });
+    }
+});
 
 
+// Real-Time check password strength
+document.getElementById("password").addEventListener("keyup", (event) => {
+    const password = event.target.value;
+    const strength = checkPasswordStrength(password);
+
+    // Display the strength result
+    const strengthDiv = document.getElementById("password-strength");
+    switch (strength) {
+        case "strong":
+            strengthDiv.textContent = " * Password strength: Strong";
+            strengthDiv.style.color = "green";
+            break;
+        case "medium":
+            strengthDiv.textContent = "* Password strength: Medium";
+            strengthDiv.style.color = "orange";
+            break;
+        case "weak":
+            strengthDiv.textContent = "* Password strength: Weak";
+            strengthDiv.style.color = "red";
+            break;
+        default:
+            strengthDiv.textContent = "";
+    }
+});
+
+// Re-Enter Password
+document.getElementById("reenterpassword").addEventListener("keyup", (event) => {
+    const reenteredPassword = event.target.value;
+    const isMatched = validatePasswordMatch(document.getElementById("password").value, reenteredPassword);
+    if(!isMatched){
+        document.getElementById("password-match").textContent = "Matched Password";
+    }else{
+        document.getElementById("password-match").textContent = "Password does not match";
+    }
+    
+    if(reenteredPassword == ""){
+        document.getElementById("password-match").textContent = "";
+    }
+});
 
 
 
@@ -126,19 +187,19 @@ function validateMiddleInitial(middleInitial) {
 }
 
 // Empty function to check if the username already exists
-// function checkUsernameExists(username) {
+function checkUsernameExists(username) {
     // Logic to check if the username exists in the database
-    // return false; Placeholder return statement
-// }
+    return false; // Placeholder return statement
+}
 
 // Validate sex input
 function validateSex(sex) {
+    
     if (!sex) {
         return "Please select a valid gender.";
     }
     return false;
 }
-
 // Registration form validation
 function validateRegForm(event) {
     event.preventDefault();
@@ -163,7 +224,9 @@ function validateRegForm(event) {
 
     // Check double spaces
     if (hasDoubleSpace(firstname) || hasDoubleSpace(lastname) || hasDoubleSpace(username)) {
-        alert("No double spaces allowed in names or username.");
+        // alert("No double spaces allowed in names or username.");
+        error.textContent = `No double spaces allowed in names or username`;
+        errorDivContainer.style.transform = "translateX(0)"; 
         return;
     }
 
@@ -171,7 +234,9 @@ function validateRegForm(event) {
     const fieldsToCheck = [firstname, lastname, username, password];
     for (let field of fieldsToCheck) {
         if (hasConsecutiveChars(field)) {
-            alert("No three consecutive identical characters allowed.");
+            // alert("No three consecutive identical characters allowed.");
+            error.textContent = `No three consecutive identical characters allowed.`;
+            errorDivContainer.style.transform = "translateX(0)"; 
             return;
         }
     }
@@ -184,7 +249,7 @@ function validateRegForm(event) {
     const sexValidation = validateSex(sex);
     const addressValidation = validateAddress(purok, barangay, city, province, country, zip);
     const usernameValidation = validateLength("Username", username, 3, 50);
-    // const usernameExists = checkUsernameExists(username); // Placeholder for checking username existence Add logic to the actual method
+    // const usernameExists = checkUsernameExists(username); // Placeholder for checking username existence. Already implemented the logic in the server
     const passwordValidation = checkPasswordStrength(password);
     const passwordMatchValidation = validatePasswordMatch(password, reenterpassword);
     const extensionnameValidation = validateNameExtension(extensionname);
@@ -192,42 +257,65 @@ function validateRegForm(event) {
     
 
     // Display validation errors
+    const errorDivContainer = document.querySelector(".err-div");
+    const error = document.querySelector(".error");
+    errorDivContainer.addEventListener("click", ()=>{
+        errorDivContainer.style.transform = "translateX(-100%)";
+    })
+
+
     if (firstnameValidation) {
-        alert(firstnameValidation);
+        // alert(firstnameValidation);
+        error.textContent = `${firstnameValidation}`;
+        errorDivContainer.style.transform = "translateX(0)"; // Slide in
         return;
     }
-
     if (lastnameValidation) {
-        alert(lastnameValidation);
+        // alert(lastnameValidation);
+        error.textContent = lastnameValidation;
+        errorDivContainer.style.transform = "translateX(0)"; 
         return;
     }
-
     if (middleinitialValidation) {
-        alert(middleinitialValidation);
+        // alert(middleinitialValidation);
+        error.textContent = middleinitialValidation;
+        errorDivContainer.style.transform = "translateX(0)"; 
         return;
     }
-    if(extensionnameValidation){
-        alert(extensionnameValidation);
+    if (extensionnameValidation) {
+        // alert(extensionnameValidation);
+        error.textContent = extensionnameValidation;
+        errorDivContainer.style.transform = "translateX(0)";
         return;
     }
-
     if (emailValidation) {
-        alert(emailValidation);
+        // alert(emailValidation);
+        error.textContent = emailValidation;
+        errorDivContainer.style.transform = "translateX(0)";
         return;
     }
 
     if (sexValidation) {
-        alert(sexValidation);
+        // alert(sexValidation);
+        error.textContent = sexValidation;
+        errorDivContainer.style.transform = "translateX(0)";
         return;
     }
 
+    
+
+
     if (addressValidation) {
-        alert(addressValidation);
+        // alert(addressValidation);
+        error.textContent = addressValidation;
+        errorDivContainer.style.transform = "translateX(0)";
         return;
     }
 
     if (usernameValidation) {
-        alert(usernameValidation);
+        // alert(usernameValidation);
+        error.textContent = usernameValidation;
+        errorDivContainer.style.transform = "translateX(0)";
         return;
     }
 
@@ -237,26 +325,110 @@ function validateRegForm(event) {
     // }
 
     if (passwordValidation === "invalid") {
-        alert("Password must be at least 8 characters long and contain letters and numbers.");
+        // alert("Password must be at least 8 characters long and contain letters and numbers.");
+        error.textContent = "Password must be at least 8 characters long and contain letters and numbers.";
+        errorDivContainer.style.transform = "translateX(0)";
         return;
-    }else{
-        alert(passwordValidation)
     }
 
     if (passwordMatchValidation) {
-        alert(passwordMatchValidation);
+        // alert(passwordMatchValidation);
+        error.textContent = passwordMatchValidation;
+        errorDivContainer.style.transform = "translateX(0)";
         return;
     }
+    error.textContent = '';
 
-    if (extensionnameValidation) {
-        alert(extensionnameValidation);
-        return;
-    }
+    // alert("Registration is successful!");
 
+    // After the restriction: This part make the data to be an object form
+        const registrationData = {
+            firstname,
+            lastname,
+            email,
+            sex,
+            purok,
+            barangay,
+            city,
+            province,
+            country,
+            zip,
+            username,
+            password,
+            middleinitial,
+            extensionname
+        };
+    
+        // Send POST request to this endpoint 
+        fetch('http://localhost/IT107/server/registration.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(registrationData)
+        })
+        .then(response => {
+            console.log("Response:", response); // Log the entire response for debugging
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error(text || 'Network response was not ok');
+                });
+            }
+            return response.json(); // Ensure the response is JSON
+        })
+        .then(data => {
+            // Query DOM elements
+            const successMessage = document.querySelector(".message");
+            const errorMessage = document.querySelector(".error-message-container");
+            const errorDivContainer = document.querySelector(".err-div");
 
-    // Add your logic for successful registration
-    // ----- -_- -------
-    alert("Registration is successful!");
+            // Handle successful registration response
+            if (data.success) {
+                successMessage.innerHTML = `<i class="fa-solid fa-circle-check" style="color: green;"></i> ${data.success}`;
+                successMessage.style.color = "green";
+                errorDivContainer.style.transform = "translateX(0)"; // Show success message
+
+                setTimeout(()=>{
+                    error.innerHTML = `
+                    <h5>Account Details</h5>
+                    <hr>
+                    <p>First Name : <u>${firstname}</u></p>
+                    <p>Last Name : <u>${lastname}</u></p>
+                    <p>Middle Initial : <u>${middleinitial}</u></p>
+                    <p>Extension Name : <u>${extensionname}</u></p>
+                    <p>Email : <u>${email}</u></p>
+                    <p>Sex : <u>${sex.value}</u></p>
+                    <p>Purok : <u>${purok}</u></p>
+                    <p>Barangay : <u>${barangay}</u></p>
+                    <p>City : <u>${city}</u></p>
+                    <p>Province : <u>${province}</u></p>
+                    <p>Country : <u>${country}</u></p>
+                    <p>Zip : <u>${zip}</u></p>
+                    <h5>Your Account</h5>
+                    <hr>
+                    <p>Username : <u>${username}</u></p>
+                    <p>Password : <u>${password}</u></p>
+                    
+                    `;
+                    errorDivContainer.addEventListener("click", ()=>{
+                        window.location ="/index.html";
+                    })
+                }, 3000)
+            } else if (data.error) {
+                errorMessage.textContent = data.error;
+                errorMessage.style.color = "red";
+                errorDivContainer.style.transform = "translateX(0)"; // Show error message
+            }
+
+            // Log the response data for debugging
+            console.log("Response data:", data);
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('Error:', error);
+            alert("There was an error during registration: " + error.message);
+        });
+
     
 }
 

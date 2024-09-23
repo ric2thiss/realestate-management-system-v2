@@ -1,7 +1,12 @@
 "use strict";
 
 // Specified functions
-
+ // Display validation errors
+ const errorDivContainer = document.querySelector(".err-div");
+ const errors = document.querySelector(".error");
+ errorDivContainer.addEventListener("click", ()=>{
+     errorDivContainer.style.transform = "translateX(-100%)";
+ })
 // Event listener for zip code
 document.getElementById('zip').addEventListener('keyup', function(event) {
     const zip = event.target.value;
@@ -180,7 +185,7 @@ function validateMiddleInitial(middleInitial) {
         return false;
     } else if (middleInitial === middleInitial.toLowerCase()) {
         return "Middle initial must be capitalized.";
-    } else if (middleInitial.length > 2) {
+    } else if (middleInitial.length > 1) {
         return "Middle initial must not be greater than 2 characters.";
     }
     return false;
@@ -194,12 +199,12 @@ function checkUsernameExists(username) {
 
 // Validate sex input
 function validateSex(sex) {
+    
     if (!sex) {
         return "Please select a valid gender.";
     }
     return false;
 }
-
 // Registration form validation
 function validateRegForm(event) {
     event.preventDefault();
@@ -225,7 +230,7 @@ function validateRegForm(event) {
     // Check double spaces
     if (hasDoubleSpace(firstname) || hasDoubleSpace(lastname) || hasDoubleSpace(username)) {
         // alert("No double spaces allowed in names or username.");
-        error.textContent = `No double spaces allowed in names or username`;
+        errors.textContent = `No double spaces allowed in names or username`;
         errorDivContainer.style.transform = "translateX(0)"; 
         return;
     }
@@ -235,7 +240,7 @@ function validateRegForm(event) {
     for (let field of fieldsToCheck) {
         if (hasConsecutiveChars(field)) {
             // alert("No three consecutive identical characters allowed.");
-            error.textContent = `No three consecutive identical characters allowed.`;
+            errors.textContent = `No three consecutive identical characters allowed.`;
             errorDivContainer.style.transform = "translateX(0)"; 
             return;
         }
@@ -254,64 +259,56 @@ function validateRegForm(event) {
     const passwordMatchValidation = validatePasswordMatch(password, reenterpassword);
     const extensionnameValidation = validateNameExtension(extensionname);
 
-    
-
-    // Display validation errors
-    const errorDivContainer = document.querySelector(".err-div");
-    const error = document.querySelector(".error");
-    errorDivContainer.addEventListener("click", ()=>{
-        errorDivContainer.style.transform = "translateX(-100%)";
-    })
 
 
     if (firstnameValidation) {
         // alert(firstnameValidation);
-        error.textContent = `${firstnameValidation}`;
+        errors.textContent = firstnameValidation;
         errorDivContainer.style.transform = "translateX(0)"; // Slide in
         return;
     }
     if (lastnameValidation) {
         // alert(lastnameValidation);
-        error.textContent = lastnameValidation;
+        errors.textContent = lastnameValidation;
         errorDivContainer.style.transform = "translateX(0)"; 
         return;
     }
     if (middleinitialValidation) {
         // alert(middleinitialValidation);
-        error.textContent = middleinitialValidation;
+        errors.textContent = middleinitialValidation;
         errorDivContainer.style.transform = "translateX(0)"; 
         return;
     }
     if (extensionnameValidation) {
         // alert(extensionnameValidation);
-        error.textContent = extensionnameValidation;
+        errors.textContent = extensionnameValidation;
         errorDivContainer.style.transform = "translateX(0)";
         return;
     }
     if (emailValidation) {
         // alert(emailValidation);
-        error.textContent = emailValidation;
+        errors.textContent = emailValidation;
         errorDivContainer.style.transform = "translateX(0)";
         return;
     }
 
     if (sexValidation) {
         // alert(sexValidation);
-        error.textContent = sexValidation;
+        errors.textContent = sexValidation;
         errorDivContainer.style.transform = "translateX(0)";
         return;
     }
 
     if (addressValidation) {
         // alert(addressValidation);
-        error.textContent = addressValidation;
+        errors.textContent = addressValidation;
         errorDivContainer.style.transform = "translateX(0)";
         return;
     }
 
     if (usernameValidation) {
         // alert(usernameValidation);
-        error.textContent = usernameValidation;
+        errors.textContent = usernameValidation;
         errorDivContainer.style.transform = "translateX(0)";
         return;
     }
@@ -323,14 +320,14 @@ function validateRegForm(event) {
 
     if (passwordValidation === "invalid") {
         // alert("Password must be at least 8 characters long and contain letters and numbers.");
-        error.textContent = "Password must be at least 8 characters long and contain letters and numbers.";
+        errors.textContent = "Password must be at least 8 characters long and contain letters and numbers.";
         errorDivContainer.style.transform = "translateX(0)";
         return;
     }
 
     if (passwordMatchValidation) {
         // alert(passwordMatchValidation);
-        error.textContent = passwordMatchValidation;
+        errors.textContent = passwordMatchValidation;
         errorDivContainer.style.transform = "translateX(0)";
         return;
     }
@@ -363,27 +360,117 @@ function validateRegForm(event) {
             },
             body: JSON.stringify(registrationData)
         })
-        .then(response => {
+        .then(async response => {
             console.log("Response:", response); // Log the entire response for debugging
             if (!response.ok) {
-                // return response.text().then(text => {
-                //     throw new Error(text || 'Network response was not ok');
-                // });
-
-                console.log("Response:", response); 
+                const text = await response.text();
+                throw new Error(text || 'Network response was not ok');
             }
             return response.json(); // Ensure the response is JSON
         })
         .then(data => {
+            // Query DOM elements
+            const successMessage = document.querySelector(".message");
+            const errorMessage = document.querySelector(".error-message-container");
+            const errorDivContainer = document.querySelector(".err-div");
+
             // Handle successful registration response
-            if(data.success) alert(data.success)
-            if(data.error) alert(data.error); // Log the response data for debugging
+            if (data.success) {
+                successMessage.innerHTML = `<i class="fa-solid fa-circle-check" style="color: green;"></i> ${data.success}`;
+                successMessage.style.color = "green";
+                errorDivContainer.style.transform = "translateX(0)"; // Show success message
+
+                setTimeout(()=>{
+                    errors.innerHTML = `
+                    <hr>
+                    <h5><strong>Account Details</strong></h5>
+                    <hr>
+                    <p>First Name : <u>${firstname}</u></p>
+                    <p>Last Name : <u>${lastname}</u></p>
+                    <p>Middle Initial : <u>${middleinitial}</u></p>
+                    <p>Extension Name : <u>${extensionname}</u></p>
+                    <p>Email : <u>${email}</u></p>
+                    <p>Sex : <u>${sex.textContent}</u></p>
+                    <p>Purok : <u>${purok}</u></p>
+                    <p>Barangay : <u>${barangay}</u></p>
+                    <p>City : <u>${city}</u></p>
+                    <p>Province : <u>${province}</u></p>
+                    <p>Country : <u>${country}</u></p>
+                    <p>Zip : <u>${zip}</u></p>
+                    <hr>
+                    <h5><strong>Your Account</strong></h5>
+                    <hr>
+                    <p>Username : <u>${username}</u></p>
+                    <p>Password : <u>${password}</u></p>
+                    
+                    `;
+                    errorDivContainer.addEventListener("click", ()=>{
+                        window.location ="http://localhost/IT107/index.html";
+                    })
+                }, 3000)
+            } else if (data.error) {
+                // error.textContent = '';
+                errorMessage.textContent = data.error;
+                errorMessage.style.color = "red";
+                errorDivContainer.style.transform = "translateX(0)"; // Show error message
+            }
+
+            // Log the response data for debugging
+            console.log("Response data:", data);
         })
         .catch(error => {
             // Handle errors
             console.error('Error:', error);
             alert("There was an error during registration: " + error.message);
         });
+
     
+}
+
+
+// Login form validation 
+
+function validateLoginForm(event){
+    event.preventDefault();
+
+    const form = document.forms["form"];
+
+    // Get input values
+    const username = form["username"].value.trim();
+    const password = form["password"].value.trim();
+
+    const validateUsername = validateLength("Username", username, 3, 65);
+    const validatedPassword = validateLength("Password", password, 8, 255);
+
+    if(validateUsername){
+        errors.textContent = validateUsername;
+        errorDivContainer.style.transform = "translateX(0)"; 
+        return;
+    }
+
+    if(validatedPassword){
+        errors.textContent = validatedPassword;
+        errorDivContainer.style.transform = "translateX(0)"; 
+        return;
+    }
+
+    if (hasDoubleSpace(username) || hasDoubleSpace(password)){
+        // alert("No double spaces allowed in names or username.");
+        errors.textContent = `No double spaces allowed in username or password`;
+        errorDivContainer.style.transform = "translateX(0)"; 
+        return;
+    }
+
+    const successMessage = document.querySelector(".message");
+    successMessage.innerHTML = `<i class="fa-solid fa-circle-check" style="color: green;"></i> No Error Login Success`;
+    successMessage.style.color = "green";
+    errorDivContainer.style.transform = "translateX(0)"; 
+
+    errors.innerHTML = `
+        <p>Username : <u>${username}</u></p>
+        <p>Password : <u>${password}</u></p>
+    `;
+
+
 }
 
